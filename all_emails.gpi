@@ -1,0 +1,26 @@
+reset
+
+# output
+set terminal png enhanced font "Vera,12" size 1024, 768
+set output "all_emails.png"
+
+# black background
+set border linecolor rgbcolor "grey"
+set obj 1 rectangle behind from screen 0,0 to screen 1,1
+set obj 1 fillstyle solid 1.0 fillcolor rgbcolor "black"
+
+# labels
+set title "All (Red)" textcolor rgbcolor "grey"
+set ylabel "Time (hour)" textcolor rgbcolor "grey"
+
+# x-axis
+set xdata time
+set timefmt "%d-%b-%Y"
+
+# show every hour
+set ytics 1
+
+# floating point modulo
+fmod(x, y) = x - int(x / y) * y
+
+plot 'all_emails.txt' u 1:(fmod($2 + $3/60,24)) notitle with dots lc rgbcolor 'red'
