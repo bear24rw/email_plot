@@ -1,0 +1,28 @@
+reset
+
+# output
+set terminal png enhanced font "Vera,12" size 1024, 768
+set output "both_emails_hist.png"
+
+# black background
+set border linecolor rgbcolor "grey"
+set obj 1 rectangle behind from screen 0,0 to screen 1,1
+set obj 1 fillstyle solid 1.0 fillcolor rgbcolor "black"
+
+# labels
+set title "Received (Red) + Sent (Green)" textcolor rgbcolor "grey"
+set ylabel "Number of emails" textcolor rgbcolor "grey"
+
+# x-axis
+set xdata time
+set timefmt "%d-%b-%Y"
+set format x "%d-%b-%Y" 
+
+# rotate x-axis labels
+set xtics rotate by 90 offset 0,-5 out nomirror
+
+# 1 day = 86400 seconds
+set boxwidth 86400 absolute
+
+plot 'all_emails_hist.txt' using 1:($2) notitle with boxes, \
+     'sent_emails_hist.txt' using 1:($2) notitle with boxes
